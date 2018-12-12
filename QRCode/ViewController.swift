@@ -18,6 +18,8 @@ class ViewController: NSViewController, AVCaptureVideoDataOutputSampleBufferDele
     var queue: DispatchQueue!
     
     // All this code is very suspect. Read documentation and make sure this is not going to leak memory or something!
+    // You must set entitlement (Capabilities tab) to allow camera.
+    // Also you must set plist string (see plist)
     
     override func viewDidAppear() {
         super.viewDidAppear()
