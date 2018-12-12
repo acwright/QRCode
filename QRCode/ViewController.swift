@@ -40,18 +40,21 @@ class ViewController: NSViewController, AVCaptureVideoDataOutputSampleBufferDele
         self.queue = DispatchQueue(label: "queue", attributes: .concurrent)
         
         let output = AVCaptureVideoDataOutput()
-        //output.videoSettings = [kCVPixelBufferPixelFormatTypeKey: kCVPixelFormatType_32BGRA] as [String : Any]
         output.setSampleBufferDelegate(self, queue: queue)
         output.alwaysDiscardsLateVideoFrames = true
+        
+        session.addOutput(output)
+        
         //        AVCaptureDevice.requestAccess(for: .video) { (success) in
         //            Swift.print(success)
         //        }
-        session.addOutput(output)
         
         session.startRunning()
     }
     
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
+        // This is called repeatedly at the video frame rate! Be careful not to call api here!
+        
         let context = CIContext()
         let detector = CIDetector(ofType: "CIDetectorTypeQRCode", context: context, options: [:])
 
